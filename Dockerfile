@@ -42,3 +42,4 @@ ENV	APP_NAME="ZelcoreWalletGUI"
 
 # Define mountable directories.
 VOLUME ["/config"]
+VOLUME ["/storage"]

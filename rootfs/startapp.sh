@@ -3,4 +3,6 @@
 
 set -u # Treat unset variables as an error.
 
+export HOME=/storage
+
 exec zelcore
