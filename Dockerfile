@@ -29,7 +29,7 @@ RUN \
 	dpkg -i zelcore.deb && \
 	del-pkg build-dependencies && \
 	apt-get purge --auto-remove xz-utils -y && \
-	rm -rf /tmp/* /tmp/.[!.]*
+	rm -rf /tmp/* /tmp/.[!.]* && \
 	# Generate and install favicons.
     APP_ICON_URL=https://raw.githubusercontent.com/angelics/unraid-docker-zelcore-wallet/master/favicon.png && \
     install_app_icon.sh "$APP_ICON_URL"
