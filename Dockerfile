@@ -1,0 +1,44 @@
+# Pull base image.
+FROM jlesage/baseimage-gui:ubuntu-16.04
+
+ARG ZELCORE_URL=https://zelcore.io/downloads/zelcore.deb
+
+# Define working directory.
+WORKDIR /tmp
+
+### Install Zelcore
+RUN \
+	echo "add zelcore dependencies..." && \
+	add-pkg \
+	gconf2 \
+	gconf-service \
+	libnotify4 \
+	libappindicator1 \
+	libnss3 \
+	libxss1 \
+	libgtk-3-0 \
+	libatk-bridge2.0-0 \
+	libasound2 \
+	&& \
+	add-pkg --virtual build-dependencies \
+	wget \
+	ca-certificates \
+	&& \
+	echo "download zelcore..." && \
+	wget -q ${ZELCORE_URL} && \
+	dpkg -i zelcore.deb && \
+	del-pkg build-dependencies && \
+	apt-get purge --auto-remove xz-utils -y && \
+	rm -rf /tmp/* /tmp/.[!.]*
+	# Generate and install favicons.
+    APP_ICON_URL=https://raw.githubusercontent.com/angelics/unraid-docker-zelcore-wallet/master/favicon.png && \
+    install_app_icon.sh "$APP_ICON_URL"
+	
+# Add files
+COPY rootfs/ /
+
+# Set environment variables.
+ENV	APP_NAME="ZelcoreWalletGUI"
+
+# Define mountable directories.
+VOLUME ["/config"]
