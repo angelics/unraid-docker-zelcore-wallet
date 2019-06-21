@@ -8,7 +8,6 @@ log() {
 }
 
 # Make sure some directories are created.
-mkdir -p /config
 mkdir -p /storage
 
 # Generate machine id.
@@ -16,7 +15,6 @@ log "generating machine-id..."
 cat /proc/sys/kernel/random/uuid | tr -d '-' > /etc/machine-id
 
 # Take ownership of the config directory content.
-find /config -mindepth 1 -exec chown $USER_ID:$GROUP_ID {} \;
 find /storage -mindepth 1 -exec chown $USER_ID:$GROUP_ID {} \;
 
 # vim: set ft=sh :

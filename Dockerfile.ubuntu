@@ -1,5 +1,5 @@
 # Pull base image.
-FROM angelics/unraid-docker-baseimage-gui:phusion-0.11
+FROM jlesage/baseimage-gui:ubuntu-16.04
 
 ARG ZELCORE_URL=https://zelcore.io/downloads/zelcore.deb
 
@@ -8,7 +8,7 @@ WORKDIR /tmp
 
 # Add files
 COPY rootfs/ /tmp/rootfs/
-	
+
 ### Install Zelcore
 RUN \
 	chmod -R +x /tmp/rootfs/ && \
@@ -22,6 +22,7 @@ RUN \
 		libnss3 \
 		libxss1 \
 		libgtk-3-0 \
+		libatk-bridge2.0-0 \
 		libasound2 \
 		&& \
 	add-pkg --virtual build-dependencies \
@@ -32,7 +33,7 @@ RUN \
 	wget -q ${ZELCORE_URL} && \
 	dpkg -i zelcore.deb && \
 	del-pkg build-dependencies && \
-	apt-get purge --auto-remove gcc-7-base -y && \
+	apt-get purge --auto-remove xz-utils -y && \
 	rm -rf /tmp/* /tmp/.[!.]* && \
 	# Generate and install favicons.
     APP_ICON_URL=https://raw.githubusercontent.com/angelics/unraid-docker-zelcore-wallet/master/favicon.png && \
